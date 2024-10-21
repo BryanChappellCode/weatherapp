@@ -1,3 +1,5 @@
+from current_weather import CurrentWeather
+from constants import languages
 
 # init_properties()
 # Parameters: path=<Path to properties.cfgfile>
@@ -34,13 +36,32 @@ def init_properties(path="properties.cfg"):
     if "api_key" not in properties or properties["api_key"] == "":
         raise Exception("Missing API key in properties.\nUsage: api_key=<your key here>")
     
-    if "language" not in properties or properties["language"] == "":
+    if "language" not in properties or properties["language"] not in languages.keys():
         properties["language"] = None
 
-    if "units" not in properties:
+    if "units" not in properties or properties["units"] == "":
         properties["units"] = "f"
 
     return properties
+
+def current_weather(properties):
+
+    print("\t\t\t=================================")
+    print("\t\t\t==----Enter a City/ZIP Code----==")
+    print("\t\t\t=================================")
+
+    user_input = input()
+
+    weather = CurrentWeather(properties["api_key"], user_input, properties["units"], properties["language"])
+
+    weather.get_weather()
+
+    user_input = None
+
+    while user_input != "":
+
+        print(weather)
+        
 
 def print_menu():
 
