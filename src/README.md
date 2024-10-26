@@ -1,4 +1,4 @@
-* This is a simple weather application: *
+# This is a simple weather application: 
   
 - A small project, but a good way to increase my exposure to APIs
 - Utilizes the free Weatherstack API to gather weather information
