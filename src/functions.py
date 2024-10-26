@@ -56,12 +56,14 @@ def current_weather(properties):
 
     weather.get_weather()
 
-    user_input = None
-
-    while user_input != "":
-
-        print(weather)
+    print("\t\t\t=================================")
+    print("\t\t\t==-------Current Weather-------==")
+    print("\t\t\t=================================")
+    print(weather)
+    print("\t\t\t=================================")
         
+
+
 
 def print_menu():
 

@@ -1,7 +1,7 @@
 from api_call import API_Call
 from requests import get
-from json import loads
-from
+
+
 
 class CurrentWeather(API_Call):
 
@@ -13,6 +13,15 @@ class CurrentWeather(API_Call):
             "units" : units,
         }
         if language is not None: self.querystring["language"] = language
+
+        if units == "f": 
+            self.speed_unit = "MPH"
+            self.temp_unit = "F"
+            self.dist_unit = "Miles"
+        else: 
+            self.speed_unit = "KPH"
+            self.temp_unit = "C"
+            self.dist_unit = "Kilometers"
 
         self.city = None 
         self.region = None 
@@ -42,7 +51,7 @@ class CurrentWeather(API_Call):
         self.region = self.response["location"]["region"]
         self.country = self.response["location"]["country"]
         self.time, self.date = time_fix(self.response["location"]["localtime"])
-        self.temp = {self.response["current"]["temperature"]}
+        self.temp = self.response["current"]["temperature"]
         self.conditions = self.response["current"]["weather_descriptions"]
         self.humidity = self.response["current"]["humidity"]
         self.feelslike = self.response["current"]["feelslike"]
@@ -52,11 +61,32 @@ class CurrentWeather(API_Call):
         self.uv_index = self.response["current"]["uv_index"]
         self.visibility = self.response["current"]["visibility"]
 
-
-
     def __repr__(self):
 
         location = f"{self.city}, {self.region}, {self.country}"
+
+        time = f"{self.time} {self.date}"
+
+        conditions = ""
+        for cond in self.conditions: conditions = conditions + cond 
+
+        wind = f"{self.wind_speed} {self.wind_direction}"
+
+        weather = f"\t\t\tLocation: {location}\n"
+        weather =weather +  f"\t\t\tTime: {time}\n"
+        weather = weather + f"\t\t\tTemperature: {self.temp}{self.temp_unit}\n"
+        weather = weather + f"\t\t\tCondition: {conditions}\n"
+        weather = weather + f"\t\t\tHumidity: {self.humidity}%\n"
+        weather = weather + f"\t\t\tFeels Like: {self.feelslike}{self.temp_unit}\n"
+        weather = weather + f"\t\t\tWind: {self.wind_speed}{self.speed_unit} {self.wind_direction}\n"
+        weather = weather + f"\t\t\tCloud Cover: {self.cloud_cover}%\n"
+        weather = weather + f"\t\t\tUV Index: {self.uv_index}\n"
+        weather = weather + f"\t\t\tVisibility: {self.visibility} {self.dist_unit}"
+
+        return weather
+
+        
+
         
 def time_fix(time):
 
@@ -96,4 +126,9 @@ def time_fix(time):
 
     minute = split_time[1]
 
-    return f"{hour}:{minute}", f"{mon} {day}, {year}"
+    if am:
+        return f"{hour}:{minute}am", f"{mon} {day}, {year}"
+    
+    return f"{hour}:{minute}pm", f"{mon} {day}, {year}"
+
+    

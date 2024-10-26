@@ -10,7 +10,7 @@ class test_functions(unittest.TestCase):
         props = func.init_properties()
         self.assertIsInstance(props, dict)
         print("RESULT: ", props)
-        
+
 
     
 

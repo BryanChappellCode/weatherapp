@@ -1,5 +1,4 @@
 import functions as func
-from constants import languages
 
 def main():
 
@@ -14,7 +13,8 @@ def main():
         user_input = input()
 
         match user_input:
-            case "1" : pass
+            case "1" : 
+                func.current_weather(properties)
             case "2" : pass
             case "3" : pass
             case "4" : pass
